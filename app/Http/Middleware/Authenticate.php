@@ -16,10 +16,12 @@ class Authenticate extends Middleware
     {
 
         if($request->is('admin/*')){
-            // return route('admin')->with('flash_message_success','Please login to Access');
+            session()->flash('flash_message_error','Please Login To Access');
+            return route('admin');
         }
         if (! $request->expectsJson()) {
             return route('login');
         }
     }
+
 }
