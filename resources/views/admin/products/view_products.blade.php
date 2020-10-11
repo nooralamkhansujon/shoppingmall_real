@@ -7,16 +7,16 @@
     <h1>Products</h1>
      @if(Session::has('flash_message_error'))
         <div class="alert alert-error alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button> 
+            <button type="button" class="close" data-dismiss="alert">×</button>
                 <strong>{!! session('flash_message_error') !!}</strong>
         </div>
-    @endif   
+    @endif
     @if(Session::has('flash_message_success'))
         <div class="alert alert-success alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button> 
+            <button type="button" class="close" data-dismiss="alert">×</button>
                 <strong>{!! session('flash_message_success') !!}</strong>
         </div>
-    @endif   
+    @endif
   </div>
   <div class="container-fluid">
     <hr>
@@ -37,6 +37,7 @@
                   <th>Product Code</th>
                   <th>Product Color</th>
                   <th>Price</th>
+                  <th>Status</th>
                   <th>Image</th>
                   <th>Actions</th>
                 </tr>
@@ -46,17 +47,20 @@
                 <tr class="gradeX">
                   <td>{{ $product->id }}</td>
                   <td>{{ $product->category_id }}</td>
-                  <td>{{ $product->category_name }}</td>
+                  <td>{{ $product->category->name }}</td>
                   <td>{{ $product->product_name }}</td>
                   <td>{{ $product->product_code }}</td>
                   <td>{{ $product->product_color }}</td>
                   <td>{{ $product->price }}</td>
+                  <td>{{ ($product->status)?"Active":"Inactive" }}</td>
                   <td>
                     @if(!empty($product->image))
                       <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:60px;">
                     @endif
                   </td>
-                  <td class="center"><a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">View</a> <a href="{{ url('/admin/edit-product/'.$product->id) }}" class="btn btn-primary btn-mini">Edit</a> <a id="delCat" href="{{ url('/admin/delete-product/'.$product->id) }}" class="btn btn-danger btn-mini">Delete</a></td>
+                  <td class="center"><a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">
+                    View</a>
+                  <a  href="{{route('admin.editProduct',$product->id)}}" class="btn btn-primary btn-mini ">Edit</a> <a rel="{{$product->id}}" rel1="delete-product" href="{{route('admin.deleteProduct',$product->id)}}" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
                 </tr>
                     <div id="myModal{{ $product->id }}" class="modal hide">
                       <div class="modal-header">
@@ -75,7 +79,7 @@
                       </div>
                     </div>
                 @endforeach
-                
+
               </tbody>
             </table>
           </div>
