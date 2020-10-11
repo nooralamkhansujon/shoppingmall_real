@@ -7,16 +7,16 @@
     <h1>Products</h1>
     @if(Session::has('flash_message_error'))
         <div class="alert alert-error alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button> 
+            <button type="button" class="close" data-dismiss="alert">×</button>
                 <strong>{!! session('flash_message_error') !!}</strong>
         </div>
-    @endif   
+    @endif
     @if(Session::has('flash_message_success'))
         <div class="alert alert-success alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button> 
+            <button type="button" class="close" data-dismiss="alert">×</button>
                 <strong>{!! session('flash_message_success') !!}</strong>
         </div>
-    @endif   
+    @endif
   </div>
   <div class="container-fluid"><hr>
     <div class="row-fluid">
@@ -26,11 +26,12 @@
             <h5>Add Product</h5>
           </div>
           <div class="widget-content nopadding">
-            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ url('/admin/add-product') }}" name="add_product" id="add_product" novalidate="novalidate"> {{ csrf_field() }}
+            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('admin.addProduct') }}" name="add_product" id="add_product" novalidate="novalidate">
+                 @csrf
               <div class="control-group">
                 <label class="control-label">Under Category</label>
                 <div class="controls">
-                  <select name="category_id" id="category_id" style="width: 220px;">  
+                  <select name="category_id" id="category_id" style="width: 220px;">
                     <?php echo $categories_dropdown; ?>
                   </select>
                 </div>
@@ -69,6 +70,12 @@
                 <label class="control-label">Image</label>
                 <div class="controls">
                   <input type="file" name="image" id="image">
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Status</label>
+                <div class="controls">
+                  <input type="checkbox" name="status" id="status" value="1" >
                 </div>
               </div>
               <div class="form-actions">
