@@ -2,29 +2,33 @@
 $(document).ready(function(){
 
 	$("#current_pwd").keyup(function(){
-		var current_pwd = $("#current_pwd").val();
-		$.ajax({
-			type:'get',
-			url:'/admin/check-pwd',
-			data:{current_pwd:current_pwd},
-			success:function(resp){
-				//alert(resp);
-				if(resp=="false"){
-					$("#chkPwd").html("<font color='red'>Current Password is Incorrect</font>");
-				}else if(resp=="true"){
-					$("#chkPwd").html("<font color='green'>Current Password is Correct</font>");
-				}
-			},error:function(){
-				alert("Error");
-			}
-		});
+        let current_pwd = $("#current_pwd").val();
+
+        axios({
+            method: 'get',
+            url: '/admin/check-pwd',
+            params:{
+                current_pwd: current_pwd
+            }
+          }).then(res=>{
+
+            if(res.data == false){
+                $("#chkPwd").html("<font color='red'>Current Password is Incorrect</font>");
+            }
+            else{
+                $("#chkPwd").html("<font color='green'>Current Password is Correct</font>")
+            }
+        }).catch(error=>{
+            console.log(error);
+            alert(error);
+        });
 	});
 
-	
-	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-	
+
+	$('input[type=checkbox],input[type=radio]').uniform();
+
 	$('select').select2();
-	
+
 	// Form Validation
     $("#basic_validate").validate({
 		rules:{
@@ -98,20 +102,50 @@ $(document).ready(function(){
 				required:true,
 				number:true
 			},
-			image:{
-				required:true,
-			}
+
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
 		highlight:function(element, errorClass, validClass) {
-			$(element).parents('.control-group').addClass('error');
+            $(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+    });
+
+    $("#edit_product").validate({
+		rules:{
+			category_id:{
+				required:true
+			},
+			product_name:{
+				required:true
+			},
+			product_code:{
+				required:true,
+			},
+			product_color:{
+				required:true,
+			},
+			price:{
+				required:true,
+				number:true
+			},
+
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
 		},
 		unhighlight: function(element, errorClass, validClass) {
 			$(element).parents('.control-group').removeClass('error');
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
+
 
 	// Edit Category Validation
     $("#edit_category").validate({
@@ -136,7 +170,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
-	
+
 	$("#number_validate").validate({
 		rules:{
 			min:{
@@ -162,7 +196,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
-	
+
 	$("#password_validate").validate({
 		rules:{
 			current_pwd:{
@@ -198,6 +232,60 @@ $(document).ready(function(){
 			return true;
 		}
 		return false;
-	});
+    });
+
+
+
+    $('.deleteRecord').on('click',function(event){
+        event.preventDefault();
+        let recoredId = $(this).attr('rel');
+        let recoredUrl = $(this).attr('rel1');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            reverseButtons:true
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+              axios.get(`/admin/${recoredUrl}/${recoredId}`).then(res=>{
+                    Swal.fire(
+                        'Deleted!',
+                        res.data,
+                        'success'
+                    );
+                    autometaTag();
+              }).catch(err=>{
+                      console.log(err);
+                        Swal.fire(
+                            'Error!',
+                            'Some Error occured',
+                            'error'
+                        );
+              });
+
+            }else{
+                Swal.fire(
+                    'Cancelled',
+                    'Your Recored is safe :)',
+                    'success'
+                );
+            }
+        })
+    });
 
 });
+
+function autometaTag(){
+    let headTag = document.querySelector('head');
+    let metaTag = document.createElement('meta');
+    metaTag.setAttribute('http-equiv','refresh');
+    metaTag.setAttribute('content',3);
+    headTag.appendChild(metaTag);
+
+}
