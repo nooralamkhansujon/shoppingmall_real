@@ -42,7 +42,7 @@ class AdminController extends Controller
     public function updatePassword(Request $request){
         if($request->isMethod('post')){
             $data = $request->all();
-            $check_password = User::where(['email' => Auth::user()->email])->pluck('password')->first();
+            $check_password = User::where(['email' =>Auth::user()->email])->pluck('password')->first();
             $current_password = $data['current_pwd'];
             if(Hash::check($current_password, $check_password)){
                 $password = bcrypt($data['new_pwd']);
