@@ -20,4 +20,8 @@ class Category extends Model
          return $this->hasMany(Product::class,'category_id','id');
      }
 
+     public function getStatusAttribute($value){
+         return $value == 1?"Active":"InActive";
+     }
+
 }
