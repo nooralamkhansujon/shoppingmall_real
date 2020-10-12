@@ -7,6 +7,7 @@ use Auth;
 use Session;
 use App\Category;
 use App\Product;
+use App\ProductsAttribute;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
@@ -160,5 +161,62 @@ class ProductsController extends Controller
         if(file_exists($small_image_path)){
             unlink($small_image_path);
         }
+    }
+
+    public function addAttributes(Request $request,$productId){
+           $productDetails = Product::find($productId);
+           if($request->isMethod('post')){
+             $data = $request->all();
+
+             foreach($data['sku'] as $key=>$value){
+                 //check sku is exist or not
+                 $checkSkuExist = ProductsAttribute::where(['sku'=>$value])->get();
+                 if(count($checkSkuExist) > 0 ){
+                     return redirect()->back()->with('flash_message_error','Product Attributes Sku unit already exists');
+                    }
+                    if(!empty($value)){
+                        //check size for individual  product_id
+                        $checkAttribute = ProductsAttribute::where(['size'=>$data['size'][$key],'product_id'=>$productId])->get();
+                        if(count($checkAttribute) > 0 ){
+                            return redirect()->back()->with('flash_message_error',"{$productDetails->product_name} Attributes size Should be  Unique");
+                        }
+                    $productAttribute             = new ProductsAttribute();
+                    $productAttribute->sku        = $value;
+                    $productAttribute->size       = $data['size'][$key];
+                    $productAttribute->stock      = $data['stock'][$key];
+                    $productAttribute->price      = $data['price'][$key];
+                    $productAttribute->product_id = $productId;
+                    $productAttribute->save();
+                 }
+             }
+             return redirect()->with('flash_message_success',"Product Attributes has been added");
+           }
+           return view('admin.products.add_attributes',compact('productDetails'));
+    }
+
+    public function deleteAttribute(Request $request,$attributeId =null){
+        $productAttribute = ProductsAttribute::find($attributeId);
+        if(!$productAttribute){
+              return redirect()->back()->with('flash_message_error',"Product Attribute Not Found");
+        }
+        if($productAttribute->delete()){
+            return response()->json('Product Attribute has been Deleted !');
+        }
+        else{
+            return response()->json('Product Attribute not Delete !');
+        }
+    }
+
+    public function products(Request $request,$url=null){
+        $categoryDetails    = Category::with('products')->where('url',$url)->first();
+        if($categoryDetails->parent_id == 0){
+            $childCategoriesId = $categoryDetails->categories->pluck('id')->toArray();
+            $allProducts = Product::whereIn('category_id',$childCategoriesId)->orWhere('category_id',$categoryDetails->id)->get();
+        }
+        else{
+            $allProducts = $categoryDetails->products;
+        }
+        $categories = $this->categories();//function defined in controller
+        return view('products.listing',compact('allProducts','categories','categoryDetails'));
     }
 }
