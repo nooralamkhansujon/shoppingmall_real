@@ -11,13 +11,10 @@
 |
 */
 // frontend route
-Route::get('/','IndexController@index');
+Route::get('/','IndexController@index')->name('front.index');
 Route::get('/products/{url}','ProductsController@products')->name('productsByCategory');
+Route::get('/404','IndexController@show404Page')->name('front.404');
 
-
-// Route::get('/', function () {
-//     return view('coming-soon');
-// });
 
 
 
