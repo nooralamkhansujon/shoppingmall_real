@@ -13,4 +13,8 @@ class IndexController extends Controller
         $categories = $this->categories();
         return view('index',compact('allProducts','categories'));
     }
+
+    public function show404Page(Request $request){
+        return view('layouts.frontLayout.front_404');
+    }
 }
