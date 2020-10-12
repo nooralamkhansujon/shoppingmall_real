@@ -281,6 +281,37 @@ $(document).ready(function(){
 
 });
 
+
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.attribute-wrapper'); //Input field wrapper
+    var fieldHTML = ` <div class="input-group">
+            <input style="width:100px;" type="text" name="sku[]" placeholder="sku" class="form-control" required>
+            <input style="width:100px;" type="text" name="size[]" placeholder="size" class="form-control" required>
+            <input style="width:100px;" type="text" name="stock[]" placeholder="stock" class="form-control" required>
+            <input style="width:100px;" type="text" name="price[]" placeholder="price" class="form-control" required>
+            <button  class="btn btn-danger btn-mini remove_button">remove</button>
+       </div>`; //New input field html
+    var x = 1; //Initial field counter is 1
+
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+});
+
 function autometaTag(){
     let headTag = document.querySelector('head');
     let metaTag = document.createElement('meta');
