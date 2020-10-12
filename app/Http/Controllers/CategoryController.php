@@ -16,11 +16,16 @@ class CategoryController extends Controller
                     return redirect()->back()->with('flash_message_error',"Catgory Url should be unique");
                 }
             }
+            if(!$request->has('status')){
+                 $data['status'] = '0';
+            }
+
     		$category = new Category;
     		$category->name        = $data['category_name'];
             $category->parent_id   = $data['parent_id'];
     		$category->description = $data['description'];
-    		$category->url         = $data['url'];
+            $category->url         = $data['url'];
+            $category->url         = $data['status'];
     		$category->save();
     		return redirect(route('admin.viewCategories'))->with('flash_message_success','Category added Successfully!');
     	}
