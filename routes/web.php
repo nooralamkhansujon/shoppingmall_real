@@ -10,14 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// frontend route
+Route::get('/','IndexController@index');
+Route::get('/products/{url}','ProductsController@products')->name('productsByCategory');
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
 
-Route::get('/', function () {
-    return view('coming-soon');
-});
+// Route::get('/', function () {
+//     return view('coming-soon');
+// });
 
 
 
@@ -37,19 +37,25 @@ Route::group(['middleware' => ['auth']],function(){
 
 	// Categories Routes (Admin)
 	Route::match(['get','post'],'/admin/add-category','CategoryController@addCategory')->name('admin.addCategory');
-	Route::match(['get','post'],'/admin/edit-category/{categoryId}','CategoryController@editCategory')->name('admin.editCategory');
-	Route::match(['get','post'],'/admin/delete-category/{categoryId}','CategoryController@deleteCategory')->name('admin.deleteCategory');
+	Route::match(['get','post'],'/admin/edit-category/{categoryId?}','CategoryController@editCategory')->name('admin.editCategory');
+	Route::match(['get','post'],'/admin/delete-category/{categoryId?}','CategoryController@deleteCategory')->name('admin.deleteCategory');
 	Route::get('/admin/view-categories','CategoryController@viewCategories')->name('admin.viewCategories');
 
 	// Products Routes(admin)
     Route::match(['get','post'],'/admin/add-product','ProductsController@addProduct')->name('admin.addProduct');
-    Route::match(['get','post'],'/admin/edit-product/{productId}','ProductsController@editProduct')->name('admin.editProduct');
-	Route::match(['get','post'],'/admin/delete-product/{productId}','ProductsController@deleteProduct')->name('admin.deleteProduct');
+    Route::match(['get','post'],'/admin/edit-product/{productId?}','ProductsController@editProduct')->name('admin.editProduct');
+	Route::match(['get','post'],'/admin/delete-product/{productId?}','ProductsController@deleteProduct')->name('admin.deleteProduct');
     Route::get('/admin/view-products','ProductsController@viewProducts')->name('admin.viewProducts');
 
 
     //admin logout
     Route::get('/logout','AdminController@logout');
+
+    //product Attributes
+    Route::match(['get','post'],'admin/add-attributes/{productId?}','ProductsController@addAttributes')->name('admin.addProductAttribute');
+    Route::get('/admin/delete-attribute/{attributeId?}','ProductsController@deleteAttribute')->name('admin.deleteAttribute');
+
+
 });
 
 
