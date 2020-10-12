@@ -34,6 +34,7 @@
                   <th>Category Name</th>
                   <th>Category Level</th>
                   <th>Category URL</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -44,6 +45,7 @@
                   <td>{{ $category->name }}</td>
                   <td>{{ $category->parentCategory->name ?? "Main Category" }}</td>
                   <td>{{ $category->url }}</td>
+                  <td>{{ $category->status }}</td>
                   <td class="center">
                       <a href="{{ url('/admin/edit-category/'.$category->id) }}" class="btn btn-primary btn-mini">Edit</a>
                   <a rel="{{$category->id}}" rel1="delete-category" href="javascript:void(0)" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
