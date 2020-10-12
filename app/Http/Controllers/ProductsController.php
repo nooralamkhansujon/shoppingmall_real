@@ -208,11 +208,21 @@ class ProductsController extends Controller
     }
 
     public function products(Request $request,$url=null){
+
+
         $categoryDetails    = Category::with('products')->where('url',$url)->first();
+        if(!$categoryDetails){
+            return redirect()->route('front.404');
+        }
+        //if product is parent then
         if($categoryDetails->parent_id == 0){
+            ///fetch all categoris id whose parent_id is this category
             $childCategoriesId = $categoryDetails->categories->pluck('id')->toArray();
+
+            //fetch all products whose category id in childCategoriesId array and categoryDetails id
             $allProducts = Product::whereIn('category_id',$childCategoriesId)->orWhere('category_id',$categoryDetails->id)->get();
         }
+        //if product is child then
         else{
             $allProducts = $categoryDetails->products;
         }
