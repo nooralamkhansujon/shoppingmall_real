@@ -47,7 +47,7 @@
                 <tr class="gradeX">
                   <td>{{ $product->id }}</td>
                   <td>{{ $product->category_id }}</td>
-                  <td>{{ $product->category->name }}</td>
+                  <td>{{ $product->category->name ?? "" }}</td>
                   <td>{{ $product->product_name }}</td>
                   <td>{{ $product->product_code }}</td>
                   <td>{{ $product->product_color }}</td>
@@ -58,9 +58,13 @@
                       <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:60px;">
                     @endif
                   </td>
-                  <td class="center"><a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">
+                  <td class="center">
+                      <a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">
                     View</a>
-                  <a  href="{{route('admin.editProduct',$product->id)}}" class="btn btn-primary btn-mini ">Edit</a> <a rel="{{$product->id}}" rel1="delete-product" href="{{route('admin.deleteProduct',$product->id)}}" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
+                    <a  href="{{route('admin.editProduct',$product->id)}}" class="btn btn-primary btn-mini ">Edit</a>
+                    <a  href="{{route('admin.addProductAttribute',$product->id)}}" class="btn btn-warning btn-mini ">Add Attribute</a>
+                    <a rel="{{$product->id}}" rel1="delete-product" href="{{route('admin.deleteProduct',$product->id)}}" class="btn btn-danger btn-mini deleteRecord">Delete</a>
+                </td>
                 </tr>
                     <div id="myModal{{ $product->id }}" class="modal hide">
                       <div class="modal-header">
