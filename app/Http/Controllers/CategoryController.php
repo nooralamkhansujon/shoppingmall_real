@@ -25,7 +25,7 @@ class CategoryController extends Controller
             $category->parent_id   = $data['parent_id'];
     		$category->description = $data['description'];
             $category->url         = $data['url'];
-            $category->url         = $data['status'];
+            $category->status      = $data['status'];
     		$category->save();
     		return redirect(route('admin.viewCategories'))->with('flash_message_success','Category added Successfully!');
     	}
@@ -38,7 +38,10 @@ class CategoryController extends Controller
 
         if($request->isMethod('post')){
             $data = $request->all();
-            Category::where(['id'=>$categoryId])->update(['name'=>$data['category_name'],'description'=>$data['description'],'url'=>$data['url'],'parent_id'=>$data['parent_id']]);
+            if(!$request->has('status')){
+                $data['status'] = '0';
+           }
+            Category::where(['id'=>$categoryId])->update(['name'=>$data['category_name'],'description'=>$data['description'],'url'=>$data['url'],'parent_id'=>$data['parent_id'],'status'=>$data['status']]);
             return redirect()->route('admin.viewCategories')->with('flash_message_success','Category updated Successfully!');
         }
         $categoryDetails = Category::where(['id'=>$categoryId])->first();
