@@ -71,41 +71,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-                        @foreach($categories as $category)
-                            @if($category->Categories->count() > 0 )
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordian" href="#{{$category->name}}">
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                            {{$category->name}}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="{{$category->name}}" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ul>
-                                                @foreach($category->Categories as $subCategory)
-                                                    <li><a href="{{route('productsByCategory',$subCategory->url)}}">{{$subCategory->name}}</a></li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                @else
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a href="{{route('productsByCategory',$category->url)}}">{{$category->name}}</a></h4>
-                                        </div>
-                                    </div>
-                                @endif
-                        @endforeach
-                    </div><!--/category-products-->
-                </div>
+               @include('layouts.frontLayout.front_sidebar')
             </div>
 
             <div class="col-sm-9 padding-right">
@@ -120,13 +86,13 @@
                                                 <img src="{{asset('images/backend_images/products/medium/'.$product->image)}}" alt="" />
                                             <h2>BDT {{$product->price}}</h2>
                                                 <p>{{$product->product_name}}</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="{{route('front.productDetails',$product->id)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                                             </div>
                                             <div class="product-overlay">
                                                 <div class="overlay-content">
                                                     <h2>BDT {{$product->price}}</h2>
                                                     <p>{{$product->product_name}}</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                    <a href="{{route('front.productDetails',$product->id)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                                                 </div>
                                             </div>
                                     </div>
