@@ -89,9 +89,11 @@
                             <li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     @foreach($mainCategories as $category)
-                                       <li>
-                                           <a href="{{route('productsByCategory',$category->url)}}">{{$category->name}}</a>
+                                      @if($category->status == 'Active')
+                                        <li>
+                                            <a href="{{route('productsByCategory',$category->url)}}">{{$category->name}}</a>
                                         </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </li>
