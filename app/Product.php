@@ -23,8 +23,4 @@ class Product extends Model
     public function getStatusAttribute($value){
         return $value == 1?"Active":"InActive";
     }
-
-
-
-
 }

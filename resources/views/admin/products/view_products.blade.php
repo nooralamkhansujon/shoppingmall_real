@@ -31,10 +31,8 @@
               <thead>
                 <tr>
                   <th>Product ID</th>
-                  <th>Category ID</th>
                   <th>Category Name</th>
                   <th>Product Name</th>
-                  <th>Product Code</th>
                   <th>Product Color</th>
                   <th>Price</th>
                   <th>Status</th>
@@ -46,13 +44,11 @@
               	@foreach($products as $product)
                 <tr class="gradeX">
                   <td>{{ $product->id }}</td>
-                  <td>{{ $product->category_id }}</td>
                   <td>{{ $product->category->name ?? "" }}</td>
                   <td>{{ $product->product_name }}</td>
-                  <td>{{ $product->product_code }}</td>
                   <td>{{ $product->product_color }}</td>
                   <td>{{ $product->price }}</td>
-                  <td>{{ ($product->status)?"Active":"Inactive" }}</td>
+                  <td>{{ $product->status}}</td>
                   <td>
                     @if(!empty($product->image))
                       <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:60px;">
@@ -63,7 +59,8 @@
                     View</a>
                     <a  href="{{route('admin.editProduct',$product->id)}}" class="btn btn-primary btn-mini ">Edit</a>
                     <a  href="{{route('admin.addProductAttribute',$product->id)}}" class="btn btn-warning btn-mini ">Add Attribute</a>
-                    <a rel="{{$product->id}}" rel1="delete-product" href="{{route('admin.deleteProduct',$product->id)}}" class="btn btn-danger btn-mini deleteRecord">Delete</a>
+                    <a  href="{{route('admin.addProductImage',$product->id)}}" class="btn btn-info btn-mini ">Add Image</a>
+                    <a rel="{{$product->id}}" rel1="delete-product" href="javascript:void(0)" class="btn btn-danger btn-mini deleteRecord">Delete</a>
                 </td>
                 </tr>
                     <div id="myModal{{ $product->id }}" class="modal hide">
@@ -78,7 +75,7 @@
                         <p>Product Color: {{ $product->product_color }}</p>
                         <p>Price: {{ $product->price }}</p>
                         <p>Fabric: </p>
-                        <p>Material: </p>
+                        <p>Material: {{$product->care}}</p>
                         <p>Description: {{ $product->description }}</p>
                       </div>
                     </div>

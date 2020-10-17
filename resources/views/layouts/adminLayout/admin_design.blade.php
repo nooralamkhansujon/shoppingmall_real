@@ -15,6 +15,19 @@
 <link href="{{ asset('fonts/backend_fonts/css/font-awesome.css') }}" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset('css/backend_css/jquery.gritter.css') }}" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="{{ asset('css/backend_css/jquery-ui.min.css') }}" />
+<script src="{{ asset('js/backend_js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/backend_js/jquery-ui.min.js') }}"></script>
+
+<script>
+    $( function() {
+      $( "#expire_date" ).datepicker({
+          minDate:0,
+          dateFormat: 'yy-mm-dd'
+      });
+    } );
+    </script>
 </head>
 <body>
 
@@ -26,7 +39,7 @@
 
 @include('layouts.adminLayout.admin_footer')
 
-<script src="{{ asset('js/backend_js/jquery.min.js') }}"></script>
+
 <script src="{{ asset('js/backend_js/sweetalert2.js') }}"></script>
 <script src="{{ asset('js/backend_js/axios.min.js') }}"></script>
 <script src="{{ asset('js/backend_js/jquery.ui.custom.js') }}"></script>

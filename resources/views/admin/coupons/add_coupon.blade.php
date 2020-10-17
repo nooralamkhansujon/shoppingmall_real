@@ -3,8 +3,12 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Categories</a> <a href="#" class="current">Edit Category</a> </div>
-    <h1>Categories</h1>
+    <div id="breadcrumb">
+         <a href="{{route('admin.dashboard')}}" title="Go to Desboard" class="tip-bottom"><i class="icon-home"></i>Dashboard</a>
+         <a href="{{route('admin.viewCoupons')}}" >View Coupons</a>
+         <a disabled class="current">Add Coupons</a>
+         </div>
+    <h1>Coupons</h1>
     @if(Session::has('flash_message_error'))
         <div class="alert alert-error alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -23,49 +27,47 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-            <h5>Edit Category</h5>
+            <h5>Add Coupon</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="{{ url('/admin/edit-category/'.$categoryDetails->id) }}" name="edit_category" id="edit_category" novalidate="novalidate"> {{ csrf_field() }}
+            <form class="form-horizontal" method="post" action="{{ route('admin.addCoupon') }}" name="add_coupon" id="add_coupon" novalidate="novalidate">
+                 @csrf
               <div class="control-group">
-                <label class="control-label">Category Name</label>
+                <label class="control-label">Coupon Code</label>
                 <div class="controls">
-                  <input type="text" name="category_name" id="category_name" value="{{ $categoryDetails->name }}">
+                  <input type="text" name="coupon_code" minlength="5" maxlength="15" id="coupon_code">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">Category Level</label>
+                <label class="control-label">Amount Type</label>
                 <div class="controls">
-                  <select name="parent_id" style="width: 220px;">
-                    <option value="0">Main Category</option>
-                    @foreach($levels as $val)
-                      <option value="{{ $val->id }}" @if($val->id == $categoryDetails->parent_id) selected @endif>{{ $val->name }}</option>
-                    @endforeach
+                  <select name="amount_type" style="width:200px;" id="amount_type">
+                      <option value="percentage">Percentage</option>
+                      <option value="fixed">Fixed</option>
                   </select>
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">Description</label>
+                <label class="control-label">Amount</label>
                 <div class="controls">
-                  <textarea name="description" id="description">{{ $categoryDetails->description }}</textarea>
+                  <input type="number" min="0" name="amount" id="amount">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">URL</label>
+                <label class="control-label">Expire Date</label>
                 <div class="controls">
-                  <input type="text" name="url" id="url" value="{{ $categoryDetails->url }}">
+                  <input type="text" autocomplete="off" name="expire_date" id="expire_date">
                 </div>
               </div>
-
               <div class="control-group">
                 <label class="control-label">Status</label>
                 <div class="controls">
-                  <input type="checkbox" name="status" id="status" value="1"  {{($categoryDetails->status == 'Active')?'checked':""}} >
+                  <input type="checkbox" name="status" id="status" value="1" >
                 </div>
               </div>
 
               <div class="form-actions">
-                <input type="submit" value="Edit Category" class="btn btn-success">
+                <input type="submit" value="Add Coupon" class="btn btn-success">
               </div>
             </form>
           </div>
@@ -74,5 +76,6 @@
     </div>
   </div>
 </div>
+
 
 @endsection

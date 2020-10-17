@@ -8,7 +8,7 @@ use App\Category;
 class IndexController extends Controller
 {
     public function index(Request $request){
-        $allProducts = Product::inRandomOrder()->get();
+        $allProducts = Product::where('status',1)->inRandomOrder()->get();
         //
         $categories = $this->categories();
         return view('index',compact('allProducts','categories'));

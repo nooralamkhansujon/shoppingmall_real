@@ -65,14 +65,20 @@
                          width="80" height="80" alt="">
                     </span>
                   </div>
-
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Material & Care</label>
+                    <div class="controls">
+                    <input type="text" name="care" id="care" value="{{$productDetails->care}}">
+                    </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Status</label>
                     <div class="controls">
-                      <input type="checkbox" name="status" id="status" {{($productDetails->status == '1')?'checked':""}} value="1" >
+                      <input type="checkbox" name="status" id="status" {{($productDetails->status == 'Active')?'checked':""}} value="1" >
                     </div>
                 </div>
+
                 <div class="form-actions">
                   <input type="submit" value="Edit Product" class="btn btn-success">
                 </div>

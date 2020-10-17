@@ -82,29 +82,36 @@
               <table class="table table-bordered data-table">
                 <thead>
                   <tr>
-                    <th>Product Attribute ID</th>
-                    <th>Product Attribute SKU</th>
-                    <th>Product Attribute Size</th>
-                    <th>Product Attribute Stock</th>
-                    <th>Product Attribute Price</th>
+                    <th>Attribute ID</th>
+                    <th>SKU</th>
+                    <th>Size</th>
+                    <th>Stock</th>
+                    <th>Price</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
+                {{-- </form> --}}
                   @foreach($productDetails->Attributes as $attribute)
                         <tr class="gradeX">
+                            <form action="{{route('admin.updateAttribute',$attribute->id)}}" id="{{$attribute->id}}"  method="post">
+                            @csrf
                             <td>{{ $attribute->id }}</td>
                             <td>{{ $attribute->sku }}</td>
                             <td>{{ $attribute->size }}</td>
-                            <td>{{ $attribute->stock }}</td>
-                            <td>{{ $attribute->price }}</td>
                             <td>
-                                <a  href="{{route('admin.editProduct',$productDetails->id)}}" class="btn btn-primary btn-mini ">Edit </a>
+                                <input type="text" name="stock" value="{{ $attribute->stock }}">
+                            </td>
+                            <td><input type="text" name="price" value="{{ $attribute->price }}"></td>
+                            <td>
+                                <button type="submit" class="btn btn-primary btn-mini">update</button>
                                 <a rel="{{$attribute->id}}" rel1="delete-attribute"
                                     href="{{route('admin.deleteAttribute',$attribute->id)}}"
                                     class="btn btn-danger btn-mini deleteRecord">Delete</a>
                             </td>
+                          </form>
                         </tr>
+
                   @endforeach
                 </tbody>
               </table>

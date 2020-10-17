@@ -14,13 +14,28 @@
 Route::get('/','IndexController@index')->name('front.index');
 Route::get('/products/{url}','ProductsController@products')->name('productsByCategory');
 Route::get('/404','IndexController@show404Page')->name('front.404');
+Route::get('product/{productId}','ProductsController@product')->name('front.productDetails');
 
+//getproduct price using ajax
+Route::get('/get-product-price/{productId?}/{attributeId?}','ProductsController@getProductPrice');
 
+//cart routes
+Route::match(['get', 'post'], '/product/{productId?}/add-to-art','ProductsController@addToCart')->name('front.addToCart');
+Route::match(['get', 'post'], '/cart','ProductsController@cart')->name('front.cart');
+Route::get('/cart/delete-product/{cartId}','ProductsController@deleteCartProduct')->name('front.deleteCartItem');
+Route::get('/cart/update-quantity/{cartId}/{quantity}','ProductsController@updateCartQuantity')->name('front.updateQuantity');
+
+//coupon apply
+Route::post('/cart/apply-coupon','ProductsController@applyCoupon')->name('front.applyCoupon');
 
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
+
+//all admin Routes
 Route::match(['get', 'post'], '/admin','AdminController@login')->name('admin')->middleware('guest');
 
 Route::group(['middleware' => ['auth']],function(){
@@ -45,22 +60,33 @@ Route::group(['middleware' => ['auth']],function(){
     Route::get('/admin/view-products','ProductsController@viewProducts')->name('admin.viewProducts');
 
 
+
     //admin logout
     Route::get('/logout','AdminController@logout');
 
     //product Attributes
     Route::match(['get','post'],'admin/add-attributes/{productId?}','ProductsController@addAttributes')->name('admin.addProductAttribute');
     Route::get('/admin/delete-attribute/{attributeId?}','ProductsController@deleteAttribute')->name('admin.deleteAttribute');
+    Route::post('/admin/update-attribute/{attributeId?}','ProductsController@updateAttribute')->name('admin.updateAttribute');
 
 
+    //product alt image route
+    Route::get('/admin/delete-altimage/{altImageId?}','ProductsController@deleteAltImage')->name('admin.deleteAltImage');
+    Route::match(['get','post'],'/admin/addAlt-image/{productId?}','ProductsController@addProductAltImage')->name('admin.addProductImage');
+
+
+    //coupons code route
+    Route::match(['get','post'],'/admin/add-coupon','CouponController@addCoupon')->name('admin.addCoupon');
+    Route::match(['get','post'],'/admin/edit-coupon/{couponId?}','CouponController@editCoupon')->name('admin.editCoupon');
+    Route::get('/admin/view-coupons','CouponController@viewCoupons')->name('admin.viewCoupons');
+    Route::match(['get','post'],'/admin/delete-coupon/{couponId?}','CouponController@deleteCoupon')->name('admin.deleteCoupon');
+
+
+    //banners route
+    Route::match(['get','post'],'/admin/add-banner','BannersController@addBanner')->name('admin.addBanner');
+    Route::match(['get','post'],'/admin/edit-banner/{bannerId?}','BannersController@editBanner')->name('admin.editBanner');
+    Route::get('/admin/view-banners','BannersController@viewCoupons')->name('admin.viewBanners');
+    Route::match(['get','post'],'/admin/delete-banner/{bannerId?}','BannersController@deleteCoupon')->name('admin.deleteBanner');
 });
 
 
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

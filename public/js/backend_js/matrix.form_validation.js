@@ -101,6 +101,9 @@ $(document).ready(function(){
 			price:{
 				required:true,
 				number:true
+            },
+            care:{
+				required:true,
 			},
 
 		},
@@ -132,6 +135,9 @@ $(document).ready(function(){
 			price:{
 				required:true,
 				number:true
+            },
+            care:{
+				required:true,
 			},
 
 		},
@@ -144,7 +150,59 @@ $(document).ready(function(){
 			$(element).parents('.control-group').removeClass('error');
 			$(element).parents('.control-group').addClass('success');
 		}
-	});
+    });
+
+    $("#add_coupon").validate({
+		rules:{
+			coupon_code:{
+				required:true
+			},
+			amount_type:{
+				required:true
+			},
+			amount:{
+				required:true,
+			},
+			expire_date:{
+				required:true,
+			},
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+    });
+
+    $("#add_banner").validate({
+		rules:{
+			title:{
+				required:true
+			},
+			image:{
+				required:true
+			},
+			link:{
+				required:true,
+			},
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+    });
+
+
+
 
 
 	// Edit Category Validation
@@ -227,13 +285,6 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#delCat").click(function(){
-		if(confirm('Are you sure you want to delete this Category?')){
-			return true;
-		}
-		return false;
-    });
-
 
 
     $('.deleteRecord').on('click',function(event){
@@ -266,7 +317,7 @@ $(document).ready(function(){
                             'Error!',
                             'Some Error occured',
                             'error'
-                        );
+                    );
               });
 
             }else{
